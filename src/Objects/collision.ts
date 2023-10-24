@@ -5,12 +5,11 @@ import * as PIXI from 'pixi.js';
 import CharacterImg from '../../images/char1.png';
 import BackgImg from '../../images/bg1.png';
 import WorldImg from '../../images/groundImage.png';
-import BlockImg from '../../images/block.png';
+
 
 // Import classes
 import { Character } from './character';
 import { World } from './world';
-import { Block } from './block';
 import { Background } from './background';
 
 export class Game{
@@ -23,7 +22,6 @@ export class Game{
 
     private character : Character;
     private world : World;
-    private block : Block;
     private background : Background;
 
     constructor(){
@@ -39,7 +37,6 @@ export class Game{
             .add('charTexture', CharacterImg)
             .add('backgroundTexture', BackgImg)
             .add('groundTexture', WorldImg)
-            .add('blockTexture', BlockImg);
         this.loader.load(()=>this.loadCompleted());
     }
 
@@ -52,41 +49,38 @@ export class Game{
         this.world = new World(this.loader.resources["groundTexture"].texture!);
         this.pixi.stage.addChild(this.world);
 
-        // Adding block to game
-        this.block = new Block(this.loader.resources["blockTexture"].texture!);
-        this.pixi.stage.addChild(this.block);
         
-        // Adding player to game
-        this.character = new Character(this.loader.resources["charTexture"].texture!);
-        this.pixi.stage.addChild(this.character);
+        // // Adding player to game
+        // this.character = new Character(this.loader.resources["charTexture"].texture!);
+        // this.pixi.stage.addChild(this.character);
         
         // Update
         this.pixi.ticker.add((delta) => this.update(delta));
     }
 
     private update(delta: number){
-        // Update player
-        this.character.update(delta);
+    //     // Update player
+    //     this.character.update(delta);
 
-        // Vertical collision player with ground
-        if(this.character.collisionVerticalTop(this.world) && this.character.y + this.character.height < this.world.y + this.character.yspeed){
-            this.character.y = this.world.y - this.character.height;
-            this.character.yspeed = 0;
-        }
+    //     // Vertical collision player with ground
+    //     if(this.character.collisionVerticalTop(this.world) && this.character.y + this.character.height < this.world.y + this.character.yspeed){
+    //         this.character.y = this.world.y - this.character.height;
+    //         this.character.yspeed = 0;
+    //     }
 
-        // Vertical collision player with block
-        if(this.character.collisionVerticalTop(this.block) && this.character.y + this.character.height < this.block.y + this.character.yspeed){
-            this.character.y = this.block.y - this.character.height;
-            this.character.yspeed = 0;
-        }
+    //     // Vertical collision player with block
+    //     if(this.character.collisionVerticalTop(this.block) && this.character.y + this.character.height < this.block.y + this.character.yspeed){
+    //         this.character.y = this.block.y - this.character.height;
+    //         this.character.yspeed = 0;
+    //     }
 
-        // Horizontal collision player with ground & block
-        this.character.collisionHorizontal(this.world);
-        this.character.collisionHorizontal(this.block);
+    //     // Horizontal collision player with ground & block
+    //     this.character.collisionHorizontal(this.world);
+    //     this.character.collisionHorizontal(this.block);
 
-        // Vertical bottom collision player with ground & block
-        this.character.collisionVerticalBottom(this.block);
-        this.character.collisionVerticalBottom(this.world);
+    //     // Vertical bottom collision player with ground & block
+    //     this.character.collisionVerticalBottom(this.block);
+    //     this.character.collisionVerticalBottom(this.world);
     }
 }
 
